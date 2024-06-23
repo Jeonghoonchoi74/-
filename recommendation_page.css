@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
+@font-face {
+    font-family: 'S-CoreDream-9Black';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-9Black.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(#FF7417 32%, #fff 32%);
+    background-repeat: no-repeat;
+}
+
+.bw {
+    -webkit-filter: opacity(.5) drop-shadow(0 0 0 #FF7417);
+    filter: opacity(.5) drop-shadow(0 0 0 #FF7417);
+}
+
+.tutText01 {
+    margin-top: 300px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#tutText {
+    font-family: "S-CoreDream-9Black";
+    font-size: 50px;
+    color: rgba(255, 255, 255, 0.822);
+}
+
+.book-category {
+    text-align: center;
+}
+
+.bk-cate-btn {
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+    font-family: 'S-CoreDream-6Bold';
+    color: #FF7417;
+    font-size: 17px;
+    outline: none;
+    background-color: transparent;
+    border-color: #FF7417;
+    border-width: 4px;
+    border-radius: 10px;
+    margin-top: -20px;
+}
+
+.book {
+    cursor: pointer;
+}
+
+.complete-btn {
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+    font-family: 'S-CoreDream-6Bold';
+    color: #FF7417;
+    font-size: 17px;
+    outline: none;
+    background-color: transparent;
+    border-color: #FF7417;
+    border-width: 4px;
+    border-radius: 10px;
+}
+
+#complete {
+    display: none;
+    position: fixed;
+    right: 10px;
+    top:10px;
+    width: 100px;
+    height: 50px;
+    bottom: auto;
+    background-color: rgba(255, 255, 255, 0.822);
+    border-radius: 10px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.20);
+}
+
+@media screen and (max-width: 673px) {
+    body {
+        height: 100vh;
+        background: linear-gradient(#FF7417 37.5%, #fff 37.5%);
+        background-repeat: no-repeat;
+    }
+}

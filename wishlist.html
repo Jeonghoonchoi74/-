@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>찜 목록확인</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container mt-3">
+        <table class="table table-dark">
+            <thead>
+                <th>번호</th>
+                <th>이름</th>
+                <th>작가</th>
+                <th>ISBN</th>
+            </thead>
+            <tbody id="tbody1"></tbody>
+        </table>
+    </div>
+
+    <script type="module">
+//filling table//
+        var BookNum = 0;
+        var tbody = document.getElementById('tbody1');
+        var username = JSON.parse(sessionStorage.user).username;
+        console.log(username);
+        function AddItemToTable(name,author,isbn){
+            let trow = document.createElement("tr");
+            let td1 = document.createElement("td");
+            let td2 = document.createElement("td");
+            let td3 = document.createElement("td");
+            let td4 = document.createElement("td");
+
+
+            td1.innerHTML=++BookNum;
+            td2.innerHTML=name;
+            td3.innerHTML=author;
+            td4.innerHTML=isbn;
+
+
+            trow.appendChild(td1);
+            trow.appendChild(td2);
+            trow.appendChild(td3);
+            trow.appendChild(td4);
+
+
+            tbody.appendChild(trow);
+        }
+        
+        function AddAllItemsToTable(TheBook){
+            BookNum=0;
+            tbody.innerHTML="";
+            TheBook.forEach(element => {
+                AddItemToTable(element.NameOfBook, element.Author, element.Isbn)
+            });
+        }
+
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+            apiKey: "AIzaSyDI7zt-Wbh7uRyX-_Bc6AGqpMbtTyWim9U",
+            authDomain: "dummybook-a41ac.firebaseapp.com",
+            projectId: "dummybook-a41ac",
+            storageBucket: "dummybook-a41ac.appspot.com",
+            messagingSenderId: "106063737522",
+            appId: "1:106063737522:web:dbc952b92c9850ce3ecfab"
+            };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        import {getDatabase, ref, child, onValue, get}
+        from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
+
+        const db = getDatabase();
+        
+//getting all data//
+
+        function GetAllDataOnce(){
+            const dbRef = ref(db);
+
+            get(child(dbRef,"UsersList/"+username+"/"+"찜리스트/"))
+            .then((snapshot)=>{
+                var books =[];
+                snapshot.forEach(childSnapshot => {
+                    books.push(childSnapshot.val());
+                });
+                AddAllItemsToTable(books);
+            })
+        }
+
+        window.onload = GetAllDataOnce;
+
+    </script>
+
+
+    </body>
+</html>

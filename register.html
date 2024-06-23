@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            height:100vh;
+            width:100vw;
+            margin:0px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="mb-5">
+        <h3 class="mb-3">회원가입</h3>
+        <input type ="text" placeholder="이름" id="nameInp" class="form-control mb-3">
+        <input type ="text" placeholder="이메일" id="emailInp" class="form-control mb-3">
+        <input type ="text" placeholder="아이디" id="userInp" class="form-control mb-3">
+        <input type ="password" placeholder="비밀번호" id="passInp" class="form-control mb-3">
+        <button type="text" id="sub_btn" class="btn w-100 btn-outline-primary mb-3">회원가입</button>
+        <a href="login.html">계정이 이미 있습니다</a>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+
+                    // Import the functions you need from the SDKs you need
+            
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+            apiKey: "AIzaSyDI7zt-Wbh7uRyX-_Bc6AGqpMbtTyWim9U",
+            authDomain: "dummybook-a41ac.firebaseapp.com",
+            projectId: "dummybook-a41ac",
+            storageBucket: "dummybook-a41ac.appspot.com",
+            messagingSenderId: "106063737522",
+            appId: "1:106063737522:web:dbc952b92c9850ce3ecfab"
+            };
+
+    
+        const app = initializeApp(firebaseConfig);
+
+        import {getDatabase, ref, set, child, get, update, remove}
+            from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
+        
+        const db = getDatabase();
+
+//references
+
+        const name = document.getElementById('nameInp');
+        const email = document.getElementById('emailInp');
+        const username = document.getElementById('userInp');
+        const pass = document.getElementById('passInp');
+        const submit = document.getElementById('sub_btn');
+
+//validation
+
+       
+
+        function RegisterUser(){
+            if(!Validation()){
+                return;
+            };
+            const dbRef = ref(db);
+
+            get(child(dbRef, "UsersList/"+username.value)).then((snapshot)=>{
+                if(snapshot.exists()){
+                    alert("계정이 이미 존재합니다!");
+                }
+                else{
+                    set(ref(db,"UsersList/"+username.value),
+                    {
+                        fullname: name.value,
+                        email: email.value,
+                        username: username.value,
+                        password: encPass()
+                    })
+                    .then(()=>{
+                        alert("회원가입이 완료되었습니다.");
+                        window.location = "login.html"
+                    })
+                    .catch((error)=>{
+                        alert("error"+error);
+                    })
+                }
+            });
+        }
+
+        function isEmptyOrSpaces(str){
+            return str === null || str.match(/^ *$/)!== null;
+        }
+
+        function Validation(){
+            let nameregex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+            let emailregex = /^[a-zA-Z0-9]+@(gmail|yahoo|naver)\.com$/;
+            let userregex = /^[a-zA-Z0-9]{5,}$/;
+
+            if(isEmptyOrSpaces(name.value)||isEmptyOrSpaces(email.value)||isEmptyOrSpaces(username.value)||isEmptyOrSpaces(pass.value)){
+                alert("공백으로 둘 수 없습니다.");
+                return false;
+            }
+            
+            if(!nameregex.test(name.value)){
+                alert("이름에 공백이 들어갈 수 없습니다.");
+                return false;
+            }
+
+            if(!emailregex.test(email.value)){
+                alert("이메일이 중복됩니다.");
+                return false;
+            }
+
+            if(!userregex.test(username.value)){
+                alert("-아이디는 영어와 숫자로만 구성되어야만 합니다.\n -아이디는 5글자 이상의 영어와 숫자여야 합니다. \n -아이디에는 공백이 포함되지 않아야합니다.");
+                return false; 
+            }
+
+            return true;
+        }
+
+        function encPass(){
+            var pass12 = CryptoJS.AES.encrypt(pass.value, pass.value);
+            return pass12.toString();
+        }
+
+        submit.addEventListener('click',RegisterUser);
+    </script>
+</body>
+</html>

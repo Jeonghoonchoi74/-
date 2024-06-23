@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="result.css">
+</head>
+
+<body>
+ 
+    <div id="head-Text" style="text-align: right">
+        <p>이런 　　</p>
+        <p>책은 　▶</p>
+        <p>어떠세요? 　　</p>
+    </div>
+
+    <div id="popup01">
+        <div class="bookinfo">
+            <table border="1">
+                <tr>
+                    <td id="title" colspan="3" style="font-size: 20px; background-color: #f1f3f5">
+                        제목 정보
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td id="isbn" style="font-size: 9px; text-align: center; font-weight: normal">
+                        ISBN 정보
+                    </td>
+                    <td id="author" style="font-size: 9px; text-align: center; font-weight: normal">
+                        저자 정보
+                    </td>
+                    <td id="pub" style="font-size: 9px; text-align: center; font-weight: normal">
+                        출판사 정보
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>가격</td>
+                    <td id="price" colspan="2" style="font-weight: normal">data4</td>
+                </tr>
+                <tr>
+                    <td>분류</td>
+                    <td id="category" colspan="2" style="font-weight: normal">data4</td>
+                </tr>
+            </table>
+        </div>
+        <div id="content">
+            <img id="thumb" />
+        </div>
+        <div class="check_box" align="left">
+            <input type="button" onClick="window.location='home.html'" class="Home-btn" value="Home" checked />
+        </div>
+        <div class="check_box" align="left">
+            <input type="button" class="like-btn" id="wish" value="♡ LIKE" checked />
+        </div>
+        <div class="bookdetail">요약 어쩌구</div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
+<script>
+    if (localStorage.getItem('bookInfo')) {
+        let lastData = JSON.parse(localStorage.getItem('bookInfo'));
+        $("#title").text(lastData.title);
+        $("#isbn").text(lastData.isbn);
+        $("#author").text(lastData.author);
+        $("#pub").text(lastData.publisher);
+        $("#price").text(lastData.priceSales);
+        $("#category").text(lastData.categoryName);
+        $("#thumb").attr('src', lastData.cover);
+        $(".bookdetail").text(lastData.description);
+    }
+
+</script>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDI7zt-Wbh7uRyX-_Bc6AGqpMbtTyWim9U",
+        authDomain: "dummybook-a41ac.firebaseapp.com",
+        projectId: "dummybook-a41ac",
+        storageBucket: "dummybook-a41ac.appspot.com",
+        messagingSenderId: "106063737522",
+        appId: "1:106063737522:web:dbc952b92c9850ce3ecfab"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    import { getDatabase, ref, set, child, update, remove, get }
+        from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
+
+
+    const db = getDatabase();
+
+    var insBtn = document.getElementById('wish');
+    //var username = JSON.parse(sessionStorage.user).username;
+
+    function InsertData() {
+        var uname = JSON.parse(sessionStorage.user).username;
+        console.log(uname);
+        var isbn = $("#isbn").text();
+        console.log(isbn)
+        const dbref = ref(db);
+        get(child(dbref, "UsersList/" + uname + "/" + "찜리스트/" + isbn)).then((snapshot) => {
+            if (snapshot.exists()) {
+                DeleteData();
+            }
+            else {
+                set(ref(db, "UsersList/" + uname + "/" + "찜리스트/" + isbn), {
+                    NameOfBook: $("#title").text(),
+                    Author: $("#author").text(),
+                    Isbn: $("#isbn").text(),
+
+                })
+                    .then(() => {
+                        alert("Data sucess")
+                    })
+
+            }
+        });
+    }
+
+    function DeleteData() {
+        var uname = JSON.parse(sessionStorage.user).username;
+        console.log(uname)
+        var isbn = $("#isbn").text();
+        console.log(isbn)
+        remove(ref(db, "UsersList/" + uname + "/" + "찜리스트/" + isbn))
+            .then(() => {
+                alert("remove sucess")
+            })
+            .catch((error) => {
+                alert("error")
+            });
+    }
+
+    insBtn.addEventListener('click', InsertData);
+</script>
+
+
+</html>

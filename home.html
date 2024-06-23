@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>Home</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#"><i class="fa-solid fa-house"></i> Home<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto" style="margin-left:165px;">
+        <li class="nav-item active"><a class="nav-link"> ㅣ </a></li>
+        <li class="nav-item active">
+          <a button onclick="window.open('wishlist.html','찜 목록확인','width=430,height=500,location=no,status=no,scrollbars=yes');"class="nav-link" href="#"><i class="fa-solid fa-heart"></i> 나의 찜 목록</a>
+        </li>
+        <li class="nav-item active"><a class="nav-link"> ㅣ </a></li>
+        <li class="nav-item active" onclick="location.href='#'">
+          <a class="nav-link" href="./recommendation_page.html"><i class="fa-regular fa-thumbs-up"></i> 도서 추천 받기</a>
+        </li>
+        <li class="nav-item active"><a class="nav-link"> ㅣ </a></li>
+      </ul>
+    </div>
+    <div id="main-cat">
+      <ul class="main-category">
+        <li><a href="./wishlist.html"><i class="fa-solid fa-heart"></i> 나의 찜 목록</a></li>
+        <li><a href="./recommendation_page.html"><i class="fa-regular fa-thumbs-up"></i> 도서 추천 받기</a></li>
+      </ul>
+    </div>
+
+    <form class="form-inline my-2 my-lg-0">
+      <ul class="navbar-nav mr-auto">
+
+        <li class="nav-item active mx-1">
+          <a id="userlink" class="nav-link" href="">사용자명</a>
+        </li>
+        <li class="nav-item active mx-1">
+          <a id="signoutlink" class="nav-link" href="">로그아웃</a>
+        </li>
+
+      </ul>
+    </form>
+  </nav>
+
+  <h1 align="center" class="title01">세모책</h1>
+  <div align="center" class="sub-title">세상의 모든 책들</div>
+
+
+  <div class="drop">
+    <div class="dropdown-label">
+      정렬기준
+      <span style="font-family: Material Icons">sort</span>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn" onclick="dropdown()">
+        <span class="dropbtn_icon">more_horiz</span>
+        <span class="dropbtn_content">정렬기준을 선택해주세요</span>
+        <span class="dropbtn_click" style="
+            font-family: Material Icons;
+            font-size: 16px;
+            color: #3b3b3b;
+            float: right;
+          ">arrow_drop_down</span>
+      </button>
+      <div class="dropdown-content">
+        <div class="sortRule" onclick="showMenu(this.innerText)">
+          정확도순
+        </div>
+        <div class="sortRule" onclick="showMenu(this.innerText)">최신순</div>
+        <div class="sortRule" onclick="showMenu(this.innerText)">
+          가나다순
+        </div>
+        <div class="sortRule" onclick="showMenu(this.innerText)">판매순</div>
+        <div class="sortRule" onclick="showMenu(this.innerText)">평점순</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dropdown-min">
+    <button class="dropbtn-02" onclick="dropdown()"><span
+        style="font-family: Material Icons; font-size: 200%; position: relative; bottom: 5px;">sort</span>
+    </button>
+    <div class="dropdown-content-02">
+      <!--960이하 정렬 드롭박스 메뉴 여기에-->
+    </div>
+  </div>
+
+  <div class="search-group" align="center">
+    <input id="search" type="text" placeholder="검색어 입력">
+    <button id="sub" type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+  </div>
+
+  <ul class="book-category">
+    <li class="on"><a id="소설/시">소설/시</a></li>
+    <li class="on"><a id="에세이">에세이</a></li>
+    <li class="on"><a id="경제/경영">경제/경영</a></li>
+    <li class="on"><a id="정치/사회">정치/사회</a></li>
+    <li class="on"><a id="잡지">잡지</a></li>
+    <li class="on"><a id="참고서">참고서</a></li>
+  </ul>
+
+  <div id="books"></div>
+  <div class="recentbk">
+    <div id="recent">
+      <p id="recenttext">최근 본 도서</p>
+    </div>
+  </div>
+
+  <div id="popup01">
+    <div class="close">close</div>
+    <div class="bookinfo">
+      <table border="1">
+        <tr>
+          <td id="title" colspan="3" style="font-size: 20px; background-color: #f1f3f5">
+            제목 정보
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+        </tr>
+        <tr>
+          <td id="isbn" style="font-size: 9px; text-align: center; font-weight: normal">
+            ISBN 정보
+          </td>
+          <td id="author" style="font-size: 9px; text-align: center; font-weight: normal">
+            저자 정보
+          </td>
+          <td id="pub" style="font-size: 9px; text-align: center; font-weight: normal">
+            출판사 정보
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+        </tr>
+        <tr>
+          <td>가격</td>
+          <td id="price" colspan="2" style="font-weight: normal">data4</td>
+        </tr>
+        <tr>
+          <td>분류</td>
+          <td id="category" colspan="2" style="font-weight: normal">data4</td>
+        </tr>
+      </table>
+    </div>
+    <div id="content">
+      <img id="thumb" />
+    </div>
+    <div class="check_box" align="left">
+      <input type="button" class="like-btn" id="wish" value="♡ LIKE" checked />
+    </div>
+    <div class="bookdetail">요약 어쩌구</div>
+  </div>
+  <h3 id="hh"></h3>
+  <div class="pagebtn" align="center">
+    <span class="movePage">
+      <button id="prevPage" disabled class="custom-btn btn-16"><i class="fa-solid fa-angle-left"></i> 이전</button>
+    </span>
+    <span class="movePage">
+      <button id="nextPage" class="custom-btn btn-16">다음 <i class="fa-solid fa-angle-right"></i></button>
+    </span>
+  </div>
+
+
+  <script>
+
+    let userlink = document.getElementById('userlink');
+    let signoutlink = document.getElementById('signoutlink');
+    let header = document.getElementById('hh');
+    var currentuser = null;
+
+    function getUsername(){
+        currentUser = JSON.parse(sessionStorage.getItem('user'));
+    }
+
+    function Signout(){
+      sessionStorage.removeItem('user')
+      localStorage.removeItem('user')
+      localStorage.removeItem('keepLoggedIn')
+      window.location="home.html"
+    }
+
+
+    window.onload = function(){
+      getUsername();
+      if(currentUser == null){
+        userlink.innerText="새로운 계정 만들기";
+        userlink.classList.replace("nav-link","btn");
+        userlink.classList.add("btn-primary");
+        userlink.href = "register.html";
+
+        signoutlink.innerText="로그인";
+        signoutlink.classList.replace("nav-link","btn");
+        signoutlink.classList.add("btn-success");
+        signoutlink.href = "login.html";
+      }
+
+      else{
+        userlink.innerText=currentUser.username;
+        userlink.classList.replace("btn","nav-link");
+        userlink.classList.remove("btn-primary");
+        userlink.href = "#";
+
+        signoutlink.innerText="로그아웃";
+        signoutlink.classList.replace("btn","nav-link");
+        signoutlink.classList.remove("btn-success");
+        signoutlink.href = "javascript:Signout()";
+
+      }
+    }
+  </script>
+
+  <script type="module">
+    window.onclick = (e) => {
+      if (!e.target.matches('.dropbtn') && !e.target.matches('.dropbtn_icon') && !e.target.matches('.dropbtn_click') && !e.target.matches('.dropbtn_content')) {
+        let dropdowns = document.getElementsByClassName("dropdown-content");
+
+        let dropbtn_icon = document.querySelector('.dropbtn_icon');
+        let dropbtn_content = document.querySelector('.dropbtn_content');
+        let dropbtn_click = document.querySelector('.dropbtn_click');
+        let dropbtn = document.querySelector('.dropbtn');
+
+        let i;
+        for (i = 0; i < dropdowns.length; i++) {
+          let openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+  </script>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDI7zt-Wbh7uRyX-_Bc6AGqpMbtTyWim9U",
+      authDomain: "dummybook-a41ac.firebaseapp.com",
+      projectId: "dummybook-a41ac",
+      storageBucket: "dummybook-a41ac.appspot.com",
+      messagingSenderId: "106063737522",
+      appId: "1:106063737522:web:dbc952b92c9850ce3ecfab"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    import { getDatabase, ref, set, child, update, remove, get }
+      from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
+
+
+    const db = getDatabase();
+
+    var insBtn = document.getElementById('wish');
+    //var username = JSON.parse(sessionStorage.user).username;
+
+    function InsertData() {
+      var uname = JSON.parse(sessionStorage.user).username;
+      console.log(uname);
+      var isbn = $("#isbn").text();
+      console.log(isbn)
+      const dbref = ref(db);
+      get(child(dbref, "UsersList/" + uname + "/" + "찜리스트/" + isbn)).then((snapshot) => {
+        if (snapshot.exists()) {
+          DeleteData();
+        }
+        else {
+          set(ref(db, "UsersList/" + uname + "/" + "찜리스트/" + isbn), {
+            NameOfBook: $("#title").text(),
+            Author: $("#author").text(),
+            Isbn: $("#isbn").text(),
+
+          })
+            .then(() => {
+              alert("Data sucess")
+            })
+
+        }
+      });
+    }
+
+    function DeleteData() {
+      var uname = JSON.parse(sessionStorage.user).username;
+      console.log(uname)
+      var isbn = $("#isbn").text();
+      console.log(isbn)
+      remove(ref(db, "UsersList/" + uname + "/" + "찜리스트/" + isbn))
+        .then(() => {
+          alert("remove sucess")
+        })
+        .catch((error) => {
+          alert("error")
+        });
+    }
+
+    insBtn.addEventListener('click', InsertData);
+  </script>
+
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
+  <script type="text/javascript" src="index.js"></script>
+  </script>
+
+</body>
+
+</html>
